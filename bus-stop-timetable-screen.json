@@ -1,0 +1,144 @@
+[
+    {
+        "id": "ef001c4f.0673f",
+        "type": "http request",
+        "z": "b7deedea.5381a8",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "url": "http://m.buses.co.uk/stop.aspx?stopid=155089",
+        "tls": "",
+        "x": 330,
+        "y": 80,
+        "wires": [
+            [
+                "14ec5452.a8e264"
+            ]
+        ]
+    },
+    {
+        "id": "70596714.3ada58",
+        "type": "inject",
+        "z": "b7deedea.5381a8",
+        "name": "",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "repeat": "30",
+        "crontab": "",
+        "once": true,
+        "x": 130,
+        "y": 80,
+        "wires": [
+            [
+                "ef001c4f.0673f"
+            ]
+        ]
+    },
+    {
+        "id": "3d269d6e.77d662",
+        "type": "debug",
+        "z": "b7deedea.5381a8",
+        "name": "",
+        "active": false,
+        "console": "false",
+        "complete": "true",
+        "x": 690,
+        "y": 20,
+        "wires": []
+    },
+    {
+        "id": "14ec5452.a8e264",
+        "type": "html",
+        "z": "b7deedea.5381a8",
+        "name": "Buss stop",
+        "tag": "body div table tbody",
+        "ret": "html",
+        "as": "single",
+        "x": 520,
+        "y": 80,
+        "wires": [
+            [
+                "21cd7381.417084",
+                "3d269d6e.77d662"
+            ]
+        ]
+    },
+    {
+        "id": "8a6299f1.8b62c8",
+        "type": "http in",
+        "z": "b7deedea.5381a8",
+        "name": "",
+        "url": "/timetable",
+        "method": "get",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 120,
+        "y": 160,
+        "wires": [
+            [
+                "d57c5b92.be93e"
+            ]
+        ]
+    },
+    {
+        "id": "9d68f5c5.daf2e8",
+        "type": "template",
+        "z": "b7deedea.5381a8",
+        "name": "timetable output page",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n<html xmlns=\"http://www.w3.org/1999/xhtml\">\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n<meta http-equiv=\"refresh\" content=\"20\">\n<title>Timetable</title>\n<style type=\"text/css\">\nbody {\n\tfont-family: Verdana, Geneva, sans-serif;\n\tfont-size: 70px;\n\tfont-weight: normal;\n\tbackground-color: #000;\n\tcolor: #EBC231;\n}\n.rowTitle {\n\tcolor: #FFF;\n\tfont-weight: bold;\n}\n</style>\n</head>\n\n<body>\n<div align=\"center\">\n<table class=\"rowServiceDeparture\">\n<tr class=\"rowTitle\">\n<td class=\"colServiceName\">service&nbsp;&nbsp;</td>\n<td class=\"colDestination\">destination&nbsp;&nbsp;&nbsp;&nbsp;</td>\n<td class=\"colDepartureTime\">time</td>\n</tr>\n\n{{{payload}}}\n\n</table>\n</div>\n</body>\n</html>\n",
+        "output": "str",
+        "x": 580,
+        "y": 160,
+        "wires": [
+            [
+                "dbd3a0df.90a8e8"
+            ]
+        ]
+    },
+    {
+        "id": "dbd3a0df.90a8e8",
+        "type": "http response",
+        "z": "b7deedea.5381a8",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 790,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "21cd7381.417084",
+        "type": "function",
+        "z": "b7deedea.5381a8",
+        "name": "save timetable",
+        "func": "var results = msg.payload[0];\nglobal.set('timetable1',results);\n//return msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 720,
+        "y": 80,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d57c5b92.be93e",
+        "type": "function",
+        "z": "b7deedea.5381a8",
+        "name": "load timetable",
+        "func": "var timetable1 = global.get('timetable1')||0;\nmsg.payload = timetable1;\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 340,
+        "y": 160,
+        "wires": [
+            [
+                "9d68f5c5.daf2e8"
+            ]
+        ]
+    }
+]
