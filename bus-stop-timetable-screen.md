@@ -1,7 +1,7 @@
 # Live Brighton & Hove bus stop screen
 
 ## Install
-Import clipboard in Node-RED
+Import [clipboard](./bus-stop-timetable-screen.json) in Node-RED
 
 ## Use
 ### Edit
