@@ -74,7 +74,7 @@
         "upload": false,
         "swaggerDoc": "",
         "x": 100,
-        "y": 460,
+        "y": 580,
         "wires": [
             [
                 "6679f894.1f9b2"
@@ -93,7 +93,7 @@
         "template": "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n<html xmlns=\"http://www.w3.org/1999/xhtml\">\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n<meta http-equiv=\"content-language\" content=\"en\">\n<meta http-equiv=\"refresh\" content=\"15\">\n<title>Timetable</title>\n<style type=\"text/css\">\nbody {\n\tfont-family: Verdana, Geneva, sans-serif;\n\tfont-size: 66px;\n\tfont-weight: normal;\n\tbackground-color: #000;\n\tcolor: #EBC231;\n}\n.rowTitle {\n\tcolor: #FFF;\n\tfont-weight: bold;\n}\n.rowDest {\n\tcolor: #ff0000;\n\tfont-weight: bold;\n}\n</style>\n</head>\n\n<body>\n<div align=\"center\">\n<table class=\"rowServiceDeparture\">\n<tr class=\"rowDest\">\n<td class=\"colServiceName\">TO</td>\n<td class=\"colDestination\">city centre</td>\n<td class=\"colDepartureTime\">&darr;&darr;&darr;&darr;&darr;</td>\n</tr>\n<tr class=\"rowTitle\">\n<td class=\"colServiceName\">service&nbsp;&nbsp;</td>\n<td class=\"colDestination\">destination&nbsp;&nbsp;&nbsp;&nbsp;</td>\n<td class=\"colDepartureTime\">time</td>\n</tr>\n{{{payload}}}\n\n</table>\n</div>\n</body>\n</html>\n",
         "output": "str",
         "x": 690,
-        "y": 420,
+        "y": 540,
         "wires": [
             [
                 "42aec44e.b0d5ac"
@@ -108,7 +108,7 @@
         "statusCode": "",
         "headers": {},
         "x": 910,
-        "y": 420,
+        "y": 540,
         "wires": []
     },
     {
@@ -134,10 +134,75 @@
         "outputs": 1,
         "noerr": 0,
         "x": 460,
-        "y": 420,
+        "y": 540,
         "wires": [
             [
                 "db61624f.d2156"
+            ]
+        ]
+    },
+    {
+        "id": "1d545fd5.caa87",
+        "type": "inject",
+        "z": "b7deedea.5381a8",
+        "name": "",
+        "topic": "",
+        "payload": "true",
+        "payloadType": "bool",
+        "repeat": "60",
+        "crontab": "",
+        "once": false,
+        "x": 90,
+        "y": 440,
+        "wires": [
+            [
+                "6f02017d.c377f8"
+            ]
+        ]
+    },
+    {
+        "id": "6f02017d.c377f8",
+        "type": "http request",
+        "z": "b7deedea.5381a8",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "url": "https://traintimes.org.uk/live/Moulsecoomb?dep",
+        "tls": "",
+        "x": 310,
+        "y": 440,
+        "wires": [
+            [
+                "18e803b3.108ca4"
+            ]
+        ]
+    },
+    {
+        "id": "aeef5e6e.9f7e78",
+        "type": "debug",
+        "z": "b7deedea.5381a8",
+        "name": "",
+        "active": false,
+        "console": "false",
+        "complete": "true",
+        "x": 670,
+        "y": 400,
+        "wires": []
+    },
+    {
+        "id": "18e803b3.108ca4",
+        "type": "html",
+        "z": "b7deedea.5381a8",
+        "name": "Train stop",
+        "tag": "body div table",
+        "ret": "html",
+        "as": "single",
+        "x": 500,
+        "y": 440,
+        "wires": [
+            [
+                "5171210c.eae26",
+                "aeef5e6e.9f7e78"
             ]
         ]
     },
@@ -237,18 +302,26 @@
                 "t": "cont",
                 "v": "BusFromCentre",
                 "vt": "str"
+            },
+            {
+                "t": "cont",
+                "v": "Trains",
+                "vt": "str"
             }
         ],
         "checkall": "true",
-        "outputs": 2,
+        "outputs": 3,
         "x": 270,
-        "y": 460,
+        "y": 580,
         "wires": [
             [
                 "d4ff7163.40f488"
             ],
             [
                 "3080fc8d.e1c6d4"
+            ],
+            [
+                "436c2d27.536ac4"
             ]
         ]
     },
@@ -264,7 +337,7 @@
         "template": "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n<html xmlns=\"http://www.w3.org/1999/xhtml\">\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n<meta http-equiv=\"content-language\" content=\"en\">\n<meta http-equiv=\"refresh\" content=\"15\">\n<title>Timetable</title>\n<style type=\"text/css\">\nbody {\n\tfont-family: Verdana, Geneva, sans-serif;\n\tfont-size: 66px;\n\tfont-weight: normal;\n\tbackground-color: #000;\n\tcolor: #EBC231;\n}\n.rowTitle {\n\tcolor: #FFF;\n\tfont-weight: bold;\n}\n.rowDest {\n\tcolor: #ff0000;\n\tfont-weight: bold;\n}\n</style>\n</head>\n\n<body>\n<div align=\"center\">\n<table class=\"rowServiceDeparture\">\n<tr class=\"rowDest\">\n<td class=\"colServiceName\">FROM</td>\n<td class=\"colDestination\">city centre</td>\n<td class=\"colDepartureTime\">&uarr;&uarr;&uarr;&uarr;&uarr;</td>\n</tr>\n<tr class=\"rowTitle\">\n<td class=\"colServiceName\">service&nbsp;&nbsp;</td>\n<td class=\"colDestination\">destination&nbsp;&nbsp;&nbsp;&nbsp;</td>\n<td class=\"colDepartureTime\">time</td>\n</tr>\n{{{payload}}}\n\n</table>\n</div>\n</body>\n</html>\n",
         "output": "str",
         "x": 700,
-        "y": 480,
+        "y": 600,
         "wires": [
             [
                 "d0787c20.cdd37"
@@ -279,7 +352,7 @@
         "statusCode": "",
         "headers": {},
         "x": 910,
-        "y": 480,
+        "y": 600,
         "wires": []
     },
     {
@@ -287,11 +360,11 @@
         "type": "function",
         "z": "b7deedea.5381a8",
         "name": "load timetable",
-        "func": "var timetable2 = global.get('timetable2')||0;\n//timetable1=\"<tr class=\\\"rowServiceDeparture\\\"><td class=\\\"colServiceName\\\">49</td><td class=\\\"colDestination\\\" title=\\\"Portslade Stn.\\\">Portslade Stn.</td><td class=\\\"colDepartureTime\\\" data-departureTime=\\\"08/09/2017 11:46:00\\\" title=\\\"3 mins\\\">3 mins</td></tr><tr class=\\\"rowServiceDeparture\\\"><td class=\\\"colServiceName\\\">24</td><td class=\\\"colDestination\\\" title=\\\"Churchill Sq\\\">Churchill Sq</td><td class=\\\"colDepartureTime\\\" data-departureTime=\\\"08/09/2017 11:48:00\\\" title=\\\"5 mins\\\">5 mins</td></tr><tr class=\\\"rowServiceDeparture\\\"><td class=\\\"colServiceName\\\">29B</td><td class=\\\"colDestination\\\" title=\\\"Churchill Sq\\\">Churchill Sq</td><td class=\\\"colDepartureTime\\\" data-departureTime=\\\"08/09/2017 11:48:00\\\" title=\\\"5 mins\\\">5 mins</td></tr><tr class=\\\"rowServiceDeparture\\\"><td class=\\\"colServiceName\\\">25X</td><td class=\\\"colDestination\\\" title=\\\"Palmeira Sq\\\">Palmeira Sq</td><td class=\\\"colDepartureTime\\\" data-departureTime=\\\"08/09/2017 11:49:00\\\" title=\\\"6 mins\\\">6 mins</td></tr><tr class=\\\"rowServiceDeparture\\\"><td class=\\\"colServiceName\\\">50</td><td class=\\\"colDestination\\\" title=\\\"Churchill Sq\\\">Churchill Sq</td><td class=\\\"colDepartureTime\\\" data-departureTime=\\\"08/09/2017 11:51:00\\\" title=\\\"8 mins\\\">8 mins</td></tr><tr class=\\\"rowServiceDeparture\\\"><td class=\\\"colServiceName\\\">25</td><td class=\\\"colDestination\\\" title=\\\"Old Steine\\\">Old Steine</td><td class=\\\"colDepartureTime\\\" data-departureTime=\\\"08/09/2017 11:52:00\\\" title=\\\"9 mins\\\">9 mins</td></tr><tr class=\\\"rowServiceDeparture\\\"><td class=\\\"colServiceName\\\">49</td><td class=\\\"colDestination\\\" title=\\\"Portslade Stn.\\\">Portslade Stn.</td><td class=\\\"colDepartureTime\\\" data-departureTime=\\\"08/09/2017 11:55:00\\\" title=\\\"12 mins\\\">12 mins</td></tr><tr class=\\\"rowServiceDeparture\\\"><td class=\\\"colServiceName\\\">48</td><td class=\\\"colDestination\\\" title=\\\"Brighton Stn\\\">Brighton Stn</td><td class=\\\"colDepartureTime\\\" data-departureTime=\\\"08/09/2017 11:57:00\\\" title=\\\"14 mins\\\">14 mins</td></tr><tr class=\\\"rowServiceDeparture\\\"><td class=\\\"colServiceName\\\">25X</td><td class=\\\"colDestination\\\" title=\\\"Palmeira Sq\\\">Palmeira Sq</td><td class=\\\"colDepartureTime\\\" data-departureTime=\\\"08/09/2017 11:58:00\\\" title=\\\"15 mins\\\">15 mins</td></tr><tr class=\\\"rowServiceDeparture\\\"><td class=\\\"colServiceName\\\">29</td><td class=\\\"colDestination\\\" title=\\\"Churchill Sq\\\">Churchill Sq</td><td class=\\\"colDepartureTime\\\" data-departureTime=\\\"08/09/2017 11:58:00\\\" title=\\\"15 mins\\\">15 hours</td></tr>\";\n\nmsg.payload = timetable2;\n//node.warn(timetable1);\n\nglobal.set('servpage',\"BusToCentre\");\nreturn msg;",
+        "func": "var timetable2 = global.get('timetable2')||0;\n//timetable1=\"<tr class=\\\"rowServiceDeparture\\\"><td class=\\\"colServiceName\\\">49</td><td class=\\\"colDestination\\\" title=\\\"Portslade Stn.\\\">Portslade Stn.</td><td class=\\\"colDepartureTime\\\" data-departureTime=\\\"08/09/2017 11:46:00\\\" title=\\\"3 mins\\\">3 mins</td></tr><tr class=\\\"rowServiceDeparture\\\"><td class=\\\"colServiceName\\\">24</td><td class=\\\"colDestination\\\" title=\\\"Churchill Sq\\\">Churchill Sq</td><td class=\\\"colDepartureTime\\\" data-departureTime=\\\"08/09/2017 11:48:00\\\" title=\\\"5 mins\\\">5 mins</td></tr><tr class=\\\"rowServiceDeparture\\\"><td class=\\\"colServiceName\\\">29B</td><td class=\\\"colDestination\\\" title=\\\"Churchill Sq\\\">Churchill Sq</td><td class=\\\"colDepartureTime\\\" data-departureTime=\\\"08/09/2017 11:48:00\\\" title=\\\"5 mins\\\">5 mins</td></tr><tr class=\\\"rowServiceDeparture\\\"><td class=\\\"colServiceName\\\">25X</td><td class=\\\"colDestination\\\" title=\\\"Palmeira Sq\\\">Palmeira Sq</td><td class=\\\"colDepartureTime\\\" data-departureTime=\\\"08/09/2017 11:49:00\\\" title=\\\"6 mins\\\">6 mins</td></tr><tr class=\\\"rowServiceDeparture\\\"><td class=\\\"colServiceName\\\">50</td><td class=\\\"colDestination\\\" title=\\\"Churchill Sq\\\">Churchill Sq</td><td class=\\\"colDepartureTime\\\" data-departureTime=\\\"08/09/2017 11:51:00\\\" title=\\\"8 mins\\\">8 mins</td></tr><tr class=\\\"rowServiceDeparture\\\"><td class=\\\"colServiceName\\\">25</td><td class=\\\"colDestination\\\" title=\\\"Old Steine\\\">Old Steine</td><td class=\\\"colDepartureTime\\\" data-departureTime=\\\"08/09/2017 11:52:00\\\" title=\\\"9 mins\\\">9 mins</td></tr><tr class=\\\"rowServiceDeparture\\\"><td class=\\\"colServiceName\\\">49</td><td class=\\\"colDestination\\\" title=\\\"Portslade Stn.\\\">Portslade Stn.</td><td class=\\\"colDepartureTime\\\" data-departureTime=\\\"08/09/2017 11:55:00\\\" title=\\\"12 mins\\\">12 mins</td></tr><tr class=\\\"rowServiceDeparture\\\"><td class=\\\"colServiceName\\\">48</td><td class=\\\"colDestination\\\" title=\\\"Brighton Stn\\\">Brighton Stn</td><td class=\\\"colDepartureTime\\\" data-departureTime=\\\"08/09/2017 11:57:00\\\" title=\\\"14 mins\\\">14 mins</td></tr><tr class=\\\"rowServiceDeparture\\\"><td class=\\\"colServiceName\\\">25X</td><td class=\\\"colDestination\\\" title=\\\"Palmeira Sq\\\">Palmeira Sq</td><td class=\\\"colDepartureTime\\\" data-departureTime=\\\"08/09/2017 11:58:00\\\" title=\\\"15 mins\\\">15 mins</td></tr><tr class=\\\"rowServiceDeparture\\\"><td class=\\\"colServiceName\\\">29</td><td class=\\\"colDestination\\\" title=\\\"Churchill Sq\\\">Churchill Sq</td><td class=\\\"colDepartureTime\\\" data-departureTime=\\\"08/09/2017 11:58:00\\\" title=\\\"15 mins\\\">15 hours</td></tr>\";\n\nmsg.payload = timetable2;\n//node.warn(timetable1);\n\nglobal.set('servpage',\"Trains\");\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "x": 460,
-        "y": 480,
+        "y": 600,
         "wires": [
             [
                 "3d5aeb49.af395c"
@@ -322,13 +395,73 @@
         "type": "function",
         "z": "b7deedea.5381a8",
         "name": "init",
-        "func": "global.set('servpage',\"BusToCentre\");\n",
+        "func": "//global.set('servpage',\"BusToCentre\");\nglobal.set('servpage',\"Trains\");",
         "outputs": 1,
         "noerr": 0,
         "x": 270,
         "y": 80,
         "wires": [
             []
+        ]
+    },
+    {
+        "id": "5171210c.eae26",
+        "type": "function",
+        "z": "b7deedea.5381a8",
+        "name": "",
+        "func": "var results = msg.payload[0];\nglobal.set('timetableTrain',results);",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 670,
+        "y": 440,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "436c2d27.536ac4",
+        "type": "function",
+        "z": "b7deedea.5381a8",
+        "name": "load timetable",
+        "func": "var timetable3 = global.get('timetableTrain')||0;\n\ntimetable3 = timetable3.replace(/<br\\/><span class=\"faded\"><small>On time<\\/small><\\/span>/g, \"&nbsp;\");\ntimetable3 = timetable3.replace(/<td><a/g, \"<td style=\\\"display:none;\\\"><a\");\nmsg.payload = timetable3;\n\nglobal.set('servpage',\"BusToCentre\");\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 460,
+        "y": 680,
+        "wires": [
+            [
+                "cd6535eb.98fc38"
+            ]
+        ]
+    },
+    {
+        "id": "f450e5ab.594ad8",
+        "type": "http response",
+        "z": "b7deedea.5381a8",
+        "name": "",
+        "statusCode": "",
+        "headers": {},
+        "x": 910,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "cd6535eb.98fc38",
+        "type": "template",
+        "z": "b7deedea.5381a8",
+        "name": "timetable train",
+        "field": "payload",
+        "fieldType": "msg",
+        "format": "handlebars",
+        "syntax": "mustache",
+        "template": "<!DOCTYPE html PUBLIC \"-//W3C//DTD XHTML 1.0 Transitional//EN\" \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n<html xmlns=\"http://www.w3.org/1999/xhtml\">\n<head>\n<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n<meta http-equiv=\"content-language\" content=\"en\">\n<meta http-equiv=\"refresh\" content=\"15\">\n<title>Timetable</title>\n<style type=\"text/css\">\nbody {\n\tfont-family: Verdana, Geneva, sans-serif;\n\tfont-size: 60px;\n\tfont-weight: normal;\n\tbackground-color: #ffffff;\n\tcolor: #000000;\n}\n.alt {\n\tbackground-color: #EEEEFF;\n}\n.important {\n\tcolor: #ff0000;\n}\n</style>\n</head>\n\n<body>\n<div align=\"center\">\n<table class=\"rowServiceDeparture\">\n{{{payload}}}\n\n</table>\n</div>\n</body>\n</html>\n",
+        "output": "str",
+        "x": 680,
+        "y": 680,
+        "wires": [
+            [
+                "f450e5ab.594ad8"
+            ]
         ]
     }
 ]
